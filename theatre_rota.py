@@ -1,4 +1,4 @@
-from unfilled_position import UnfilledPosition
+from unfilled_position import UnfilledPositionException
 
 
 class TheatreRota:
@@ -30,9 +30,17 @@ class TheatreRota:
         else:
             return f"Role {staff.role} is not filled."
 
+    # def check_roles(self):
+    #     # Count the number of None values (unfilled roles)
+    #     unfilled_count = sum(1 for role in self.roles.values() if role is None)
+    #     # If any roles are unfilled, raise the exception
+    #     if unfilled_count > 0:
+    #         raise UnfilledPositionException(unfilled_count, "Cataract list cancelled due to staffing shortage")
+
     # The check_roles method is  to ensure that every role in the self.roles dictionary has been assigned to someone.
     # If any role hasn't been filled (i.e. still None), the method will raise an exception to signal this issue.
     # Otherwise, it confirms that all roles are filled.
+
     def check_roles(self):
         # This is a list comprehension, a concise way to create a new list.
         # This line creates a list of all the roles that are unfilled.
@@ -41,18 +49,18 @@ class TheatreRota:
         empty_roles = [role for role, member in self.roles.items() if member is None]
         if empty_roles:
             # if empty_roles list is True i.e. not empty
-            # If there are any empty roles, this line raises an UnfilledPosition exception, signaling an error condition
+            # If there are any empty roles, this line raises an UnfilledPositionException exception, signaling an error condition
             # "Empty roles found:" lists the roles in the dictionary that are empty, joining them w/ a comma and space
-            raise UnfilledPosition(f"Cataract list cancelled.\nEmpty roles found: {', '.join(empty_roles)}")
-
+            raise UnfilledPositionException(f"Cataract list cancelled.\nEmpty roles found: {', '.join(empty_roles)}")
+            # raise UnfilledPositionException(f"Unfilled roles: {', '.join(empty_roles)}")
         else:
             return "Rota complete. All roles are filled.\nCataract list scheduled."
 
-        # This is a list comprehension, a concise way to create a new list.
-        # self.roles.values(): This gets all the values from the self.roles dictionary.
-        # It goes through each item in the roles' values, 
-        # and it includes the item in the new list only if value is None. 
-        # it builds a list of all unassigned (empty) roles.
+    # This is a list comprehension, a concise way to create a new list.
+    # self.roles.values(): This gets all the values from the self.roles dictionary.
+    # It goes through each item in the roles' values,
+    # and it includes the item in the new list only if value is None.
+    # it builds a list of all unassigned (empty) roles.
 
     def count_empty_roles(self):
         return len([member for member in self.roles.values() if member is None])
